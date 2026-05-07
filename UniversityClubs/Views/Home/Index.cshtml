@@ -1,0 +1,264 @@
+﻿@model List<UniversityClubs.Models.Event>
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/UniClubs.css" rel="stylesheet" />
+<main>
+    <section id="view-home">
+        <div class="hero-section">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="hero-bg-overlay"></div>
+
+            <div class="hero-content">
+                <div class="badge-pill">
+                    <span>Fall Semester 2025</span>
+                </div>
+                <h1 class="hero-title">
+                    Discover Your <br />
+                    <span class="hero-highlight">
+                        <span id="typewriter-text">Passion</span><span class="typewriter-cursor">&nbsp;</span>
+                    </span>
+                </h1>
+                <p class="hero-subtitle">Join vibrant communities, attend exciting events, and make the most of your university journey with UniClubs.</p>
+                <div class="hero-buttons">
+                    <button onclick="location.href='@Url.Action("Index", "Club")'" class="btn btn-secondary">Explore Clubs</button>
+                    <button onclick="document.getElementById('latest-Events').scrollIntoView()" class="btn btn-hero-alt">Upcoming Events</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-about" class="section-padding" style="background: white;">
+            <div class="container">
+                <div class="text-center" style="margin-bottom: 4rem;">
+                    <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--text-main);">About Us</h2>
+                    <div class="section-divider"></div>
+                </div>
+                <div class="grid grid-3">
+                    <div class="card card-body text-center">
+                        <div class="icon-circle icon-circle-primary"><i class="fa-solid fa-eye"></i></div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Our Vision</h3>
+                        <p style="color: var(--text-muted);">To create the most connected and engaged campus community.</p>
+                    </div>
+                    <div class="card card-body text-center">
+                        <div class="icon-circle icon-circle-purple"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Our Mission</h3>
+                        <p style="color: var(--text-muted);">Empowering students to lead, collaborate, and innovate.</p>
+                    </div>
+                    <div class="card card-body text-center">
+                        <div class="icon-circle icon-circle-pink"><i class="fa-solid fa-heart"></i></div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Our Values</h3>
+                        <p style="color: var(--text-muted);">Foster leadership, promote diversity, and inclusive well-being.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="counter-section">
+            <div class="container grid grid-4">
+                <div class="counter-item">
+                    <div class="counter counter-value" data-target="50">0</div>
+                    <div class="counter-label">Active Clubs</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter counter-value" data-target="1200">0</div>
+                    <div class="counter-label">Members</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter counter-value" data-target="150">0</div>
+                    <div class="counter-label">Events/Year</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter counter-value" data-target="15">0</div>
+                    <div class="counter-label">Majors</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-padding events-section" id="latest-Events">
+            <div class="container">
+                <div class="text-center" style="margin-bottom: 3rem;">
+                    <h2 style="font-size: 2.25rem; font-weight: 700;">Latest Events</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div id="home-events-container" class="grid grid-3">
+                    @if (Model.Count() == 0)
+                    {
+                        <p style="grid-column:1/-1; text-align:center;">No upcoming events.</p>
+                    }
+                    else
+                    {
+                     
+                            foreach (var ev in Model.Take(3))
+                            {
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">@ev.Title</h3>
+                                        <div style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.75rem;">
+                                            @ev.Date • @ev.Location
+                                        </div>
+                                        <p style="color:var(--text-main); margin-bottom:1rem;">@ev.Description</p>
+                                        <div style="display:flex; gap:8px; align-items:center;">
+                                            <button class="btn btn-primary">Join</button>
+                                            <div style="margin-left:auto; color:var(--text-muted); font-size:0.9rem;">
+                                                @ev.ParticipantsCount attending
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        
+                    }
+                </div>
+
+                <div class="text-center" style="margin-top: 3rem;">
+                    <a href="~/Events/Index" class="btn btn-text" style="font-size: 1.1rem;">View All Events <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-contact" class="section-contact section-padding">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2" style="bottom: 0; right: 0; top: auto;"></div>
+            <div class="container" style="position: relative; z-index: 10;">
+                <div class="text-center" style="margin-bottom: 3rem;">
+                    <h2 class="contact-section-heading">Get in Touch</h2>
+                    <p class="contact-section-subtitle">We'd love to hear from you. Send us a message!</p>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Contact Information</h3>
+                        <p style="color: #e0e7ff; margin-bottom: 2rem;">Fill up the form and our team will get back to you within 24 hours.</p>
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                            <div class="contact-info-item">
+                                <i class="fa-solid fa-envelope contact-info-icon"></i>
+                                <div><p class="contact-info-label">Email</p><p class="contact-info-value">support@uniclubs.edu</p></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form id="contactForm" onsubmit="submitContactForm(event)">
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <select name="Subject" id="contact-subject" class="form-control" required>
+                                    <option value="" disabled selected>Select a subject</option>
+                                    <option value="create_club">Create a New Club</option>
+                                    <option value="idea">Idea for a Club</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" name="FirstName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" name="LastName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="Email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message</label>
+                                <textarea name="Message" rows="4" class="form-control" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section scripts {
+    <script>
+        // To show a toast message after submiting the contact form
+        const showToast = (message, type = 'info') => {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<strong style="margin-right:8px;">${type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️'}</strong><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+        };
+
+        // For contact form submition
+        function submitContactForm(e) {
+            e.preventDefault();
+            const form = document.getElementById('contactForm');
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData); 
+            const subject = document.getElementById('contact-subject').value;
+            if (subject === 'create_club') showToast('Request sent to Super Admin!', 'success');
+            else if (subject === 'idea') showToast('Idea forwarded to clubs!', 'success');
+            else showToast('Message sent successfully!', 'success');
+
+            form.reset();
+        }
+
+        function animateValue(el, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                el.innerText = Math.floor(progress * (end - start) + start);
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function runCounters() {
+            document.querySelectorAll('.counter').forEach(c => animateValue(c, 0, parseInt(c.dataset.target || '0'), 2000));
+        }
+
+        let typewriterTimeout;
+        function initTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            if (!el) return;
+            const words = ["Passion", "Community", "Future", "Skills"];
+            let wordIdx = 0, charIdx = 0, isDeleting = false;
+            const type = () => {
+                const current = words[wordIdx];
+                el.innerText = isDeleting ? current.substring(0, charIdx - 1) : current.substring(0, charIdx + 1);
+                charIdx = isDeleting ? charIdx - 1 : charIdx + 1;
+                if (!isDeleting && charIdx === current.length) {
+                    isDeleting = true;
+                    typewriterTimeout = setTimeout(type, 2000);
+                } else if (isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    wordIdx = (wordIdx + 1) % words.length;
+                    typewriterTimeout = setTimeout(type, 500);
+                } else {
+                    typewriterTimeout = setTimeout(type, isDeleting ? 50 : 150);
+                }
+            };
+            type();
+        }
+
+        // To run the text animation in the home page
+        document.addEventListener('DOMContentLoaded', () => {
+            initTypewriter();
+            runCounters();
+        });
+
+        window.onload = function () {
+            if (window.location.hash) {
+                const element = document.querySelector(window.location.hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            }
+        }
+    </script>
+}

@@ -1,0 +1,173 @@
+﻿@model UniversityClubs.Models.Club
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+        body {
+            background-color: #F9FAFB;
+        }
+        .Top {
+            display: flex;
+            margin: 30px 100px 10px 100px;
+            justify-content: left;
+            background-color: #F9FAFB;
+        }
+        .Back-btn-Block{
+            width: 500px;
+        }
+        .Back-btn{
+            text-decoration: none;
+            color: darkgrey;
+        }
+        .Bottom {
+            display: flex;
+            justify-content: center;
+            margin: 0px 100px;
+            background-color: #F9FAFB;
+        }
+        .Club-Box {
+            position: relative;
+            width: 1000px;
+            border-radius: 30px;
+            height: fit-content;
+            overflow: hidden;
+            box-shadow: 1px 1px 10px 2px lightgrey;
+        }
+        .Top-Club-Box {
+            height: 20vh;
+            background: linear-gradient(90deg, #5C4DB1, #7C6EE4);
+        }
+        .Club-Details {
+            position: absolute;
+            top: 13vh;
+            left: 45%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 110px;
+            margin: 10px 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .club-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 10px;
+            padding-top: 60px;
+        }
+        .Join-Now-btn{
+            text-decoration: none;
+            background-color: #4F46E5;
+            padding: 15px;
+            margin-top: 30px;
+            width: 100px;
+            border-radius: 30px;
+            color: white;
+            text-align: center;
+            transition: transform 1s;
+        }
+        .Join-Now-btn:hover {
+            transform: scale(1.1);
+        }
+        .General-info{
+            margin-top: 100px;
+            margin-left: 50px;
+            margin-right: 50px;
+            width: 900px;
+            margin-bottom: 50px;
+        }
+        .MVG {
+            display: flex;
+            margin-top:  50px;
+            justify-content: space-evenly;
+        }
+        .Mission, .Vision, .Goals{
+            width: 220px;
+            border-radius: 30px;
+            height: fit-content;
+            padding: 20px;
+        }
+        .Contact-Card {
+            display: flex;
+            justify-content: space-between;
+            background-color: #F9FAFB;
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-bottom: 50px;
+            margin-bottom: 50px;
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 1px 1px 10px 2px lightgrey;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="Top">
+        <div class="Back-btn-Block">
+            @Html.ActionLink("⬅️ Back", "Index", "Club", null, new {@class = "Back-btn"})
+        </div>
+    </div>
+    <div class="Bottom">
+        <div class="Club-Box">
+            <div class="Top-Club-Box">
+
+            </div>
+            <div class="Club-Details">
+                <div style="display: flex;">
+                    <div>
+                        <img src="~/Images/@Model.LogoPath" width="100px" height="100px" style="border: 4px white solid; border-radius: 50%"/>
+                    </div>
+                    <div class="club-text">
+                        <h2 style="height: fit-content;">@Model.Name</h2> 
+                        <p style="height: fit-content; padding: 5px; font-weight: bold; width: fit-content; background-color: #EEF2FF; color: #5850E7; border-radius: 20px; font-size: 12px; letter-spacing: 1px; ">@Model.Category1.Name</p>
+                    </div>
+                </div>
+                <div class="club-text" style="padding-top: 25px;">
+                    <a class="Join-Now-btn" style="cursor: pointer">Join Club</a>
+                </div>
+            </div>
+            <div class="General-info">
+                <h3>About Us</h3>
+                <p style="padding: 5px;">@Model.Description</p>
+                <div class="MVG">
+                        <div class="Mission" style="background-color: #4577E6;">
+                            <p>🚀</p>
+                            <p style="margin-top: 10px; font-weight: bold; margin-bottom: 10px;">Mission</p>
+                            <p style="opacity: 0.7;">@Model.Mission</p>
+                        </div>
+                        <div class="Vision" style="background-color: #42CE99;">
+                            <p>👁️</p>
+                            <p style="margin-top: 10px; font-weight: bold; margin-bottom: 10px;">Vision</p>
+                            <p style="opacity: 0.7;">@Model.Vision</p>
+                        </div>
+                        <div class="Goals" style="background-color: #B18CD7;">
+                            <p>🏆</p>
+                            <p style="margin-top: 10px; font-weight: bold; margin-bottom: 10px;">Goals</p>
+                            <p style="opacity: 0.7;">@Model.Goals</p>
+                        </div>
+                </div>
+            </div>
+                <div class="Contact-Card">
+                    <b>✉️ @Model.Email</b>
+                    <b>📞 @Model.Phone</b>
+                    <b>📍 Student Center, Room @Model.Room</b>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

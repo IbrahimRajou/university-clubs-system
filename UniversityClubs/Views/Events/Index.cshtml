@@ -1,0 +1,112 @@
+﻿@model List<UniversityClubs.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div style="text-align: right; margin-bottom: 20px;">
+    @*<a href="@Url.Action("CreateEvent")" class="btn btn-create">
+            <i class="fas fa-plus"></i> Create New Event
+        </a>*@
+</div>
+
+
+@{
+    var role = ViewBag.Role as string ?? (Session["Role"] as string);
+}
+
+@if (!string.IsNullOrEmpty(role) && role == "Admin")
+{
+    <div class="filter-box">
+        <p style="font-weight: bold;">Manage Events</p>
+        <button onclick="window.location.href='Events/CreateEvent'" class="btn btn-primary" style="margin: 10px;">Create Event</button>
+        @*<button onclick="window.location.href='Events/EditEvent'" class="btn btn-primary" style="margin: 10px;">Edit Event</button>*@
+    </div>
+}
+    
+
+    <div class="filter-box">
+        <h4>Filter Events</h4>
+        @using (Html.BeginForm("SearchByClubName", "Events", FormMethod.Get))
+        {
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Club Name:</label>
+                    @Html.TextBox("clubName", null, new { @class = "form-control", placeHolder = "Enter club name" })
+                </div>
+                <div class="filter-group" style="display: flex; align-items: center; gap: 10px">
+                    <button type="submit" class="btn btn-filter" style="width: 60px; height:40px;">Filter</button>
+                    <input type="image" style="width: 35px; height: 35px;" src="~/Images/cancel.png" class="icon" formmethod="GET" formaction="~/Events/Index" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="events-container">
+        @for (int i = 0; i < Model.Count; i += 3)
+        {
+            <div class="events-row">
+                @for (int j = i; j < i + 3 && j < Model.Count; j++)
+                {
+                    var item = Model[j];
+                    <div class="event-card">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="~/Images/@item.ImagePath" alt="@item.Title" class="event-image" />
+                        }
+                        else
+                        {
+                            <div class="event-image-placeholder">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        }
+
+                        <h3 class="event-title">@item.Title</h3>
+
+                        <div class="participants">
+                            <i class="fas fa-users"></i> @item.ParticipantsCount / @item.Capacity participants
+                        </div>
+
+                        <div class="event-buttons">
+                            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-details">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>
+
+                            @if (item.ParticipantsCount < item.Capacity)
+                            {
+                                <a class="btn btn-participate">
+                                    <i class="fas fa-user-plus"></i> Participate
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-full" disabled>
+                                    <i class="fas fa-ban"></i> Full
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="no-events">
+            <i class="fas fa-calendar-times"></i>
+            <p>No events found.</p>
+        </div>
+    }
+

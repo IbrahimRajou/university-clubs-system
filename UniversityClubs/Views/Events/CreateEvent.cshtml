@@ -1,0 +1,85 @@
+﻿@model UniversityClubs.Models.Event
+
+@{
+    ViewBag.Title = "CreateEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<div class="create-event-page">
+    <h2><i class="fas fa-plus-circle"></i> Create New Event</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-section">
+            <h3>Event Information</h3>
+
+            <div class="form-group">
+                <label for="Title"><i class="fas fa-heading"></i> Event Title *</label>
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Enter event title" })
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="Description"><i class="fas fa-align-left"></i> Description *</label>
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4, placeholder = "Enter event description" })
+                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Date"><i class="fas fa-calendar"></i> Event Date *</label>
+                    @Html.TextBoxFor(m => m.Date, "{0:yyyy-MM-dd}",
+                        new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label for="Capacity"><i class="fas fa-users"></i> Capacity *</label>
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1", max = "500" })
+                    @Html.ValidationMessageFor(m => m.Capacity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Location & Club</h3>
+
+            <div class="form-group">
+                <label for="Location"><i class="fas fa-map-marker-alt"></i> Location *</label>
+                @Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = "Enter event location" })
+                @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- CLUB DROPDOWN -->
+            <div class="form-group">
+                <label for="ClubId"><i class="fas fa-users"></i> Club *</label>
+                @Html.DropDownListFor(m => m.ClubId, ViewBag.ClubId as SelectList, "Select a club", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ClubId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Media</h3>
+
+            <div class="form-group">
+                <label for="ImagePath"><i class="fas fa-image"></i> Image URL (Optional)</label>
+                @*@Html.TextBoxFor(m => m.ImagePath, new { @class = "form-control", placeholder = "Enter image URL (e.g., /images/event.jpg)" })*@
+            <input type="file" name="file" />
+                <small class="form-text">Leave empty if no image is available</small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-create">
+                <i class="fas fa-save"></i> Create Event
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-cancel">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    }
+</div>
+
