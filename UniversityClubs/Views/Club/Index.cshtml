@@ -1,0 +1,225 @@
+﻿@model List<UniversityClubs.Models.Club>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Clubs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F9FAFB;
+        }
+
+        .Top {
+            margin-top: 30px;
+        }
+
+        h1, .TopParagraph {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Times New Roman';
+        }
+
+        .TopParagraph {
+            opacity: 0.5;
+        }
+
+        .Search-Part {
+            display: flex;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+
+        .search-bar {
+            width: 600px;
+            border: grey solid 0px;
+            border-radius: 30px;
+            height: 40px;
+            padding: 15px;
+            font-size: 17px;
+        }
+
+        .icon {
+            vertical-align: middle;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+        }
+
+        .Clubs-Categories {
+            display: flex;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .Sub-Clubs-Categories {
+            width: 650px;
+            text-align: center;
+        }
+
+        .category-btn {
+            display: inline-block;
+            margin: 0px 8px;
+            padding: 5px 15px;
+            text-decoration: none;
+            border-radius: 30px;
+            color: black;
+            background-color: white;
+            box-shadow: 1px 1px 10px 1px lightgrey;
+            transition: transform 0.5s;
+        }
+
+            .category-btn:hover {
+                /*             background-color: #4F46E5;*/
+                transform: scale(1.1);
+            }
+
+        .Bottom {
+            margin-top: 20px;
+            margin-right: 50px;
+            margin-left: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .Club-Item {
+            margin: 20px;
+            padding: 15px;
+            width: 450px;
+            background-color: #FEFEFE;
+            border: lightgrey solid 0px;
+            border-radius: 30px;
+            transition: transform 0.7s;
+            box-shadow: 1px 1px 10px 2px lightgrey;
+        }
+        .Club-Item:hover{
+            transform: scale(1.05);
+        }
+        .Top-Club-Item {
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .Middle-Club-Item {
+            margin: 20px 10px;
+        }
+
+        .Bottom-Club-Item {
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .Details-btn {
+            text-decoration: none;
+            color: #4F46E5;
+        }
+
+        .Join-btn {
+            text-decoration: none;
+            display: inline-block;
+            color: white;
+            background-color: #4F46E5;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: transform 0.5s;
+        }
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .Join-btn:hover {
+             transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    @{
+        var role = ViewBag.Role as string ?? (Session["Role"] as string);
+    }
+
+    @if (!string.IsNullOrEmpty(role) && role == "Admin")
+    {
+        <div class="filter-box">
+            <p style="font-weight: bold; margin: 10px">Manage Clubs</p>
+            <button onclick="window.location.href='Club/CreateClub'" class="btn btn-primary" style="margin: 10px;">Create Club</button>
+            @*<button onclick="window.location.href='Club/EditClub'" class="btn btn-primary" style="margin: 10px;">Edit Club</button>*@
+        </div>
+    }
+    <div class="Top">
+        <h1>Explore Clubs</h1> <br />
+        <p class="TopParagraph">Discover groups ranging from academic societies to hobby clubs</p>
+    </div>
+
+    <div class="Search-Part">
+        <div class="Sub-Search-Part">
+            @using (Html.BeginForm("SearchByName", "Club", FormMethod.Post))
+            {
+                @Html.TextBox("SearchValue", null, new { @class = "search-bar", placeHolder = "🔍 Search clubs by name" })
+                <input type="image" src="~/Images/search.png" class="icon" />
+                <input type="image" src="~/Images/cancel.png" class="icon" formmethod="GET" formaction="~/Club/Index" />
+            }
+        </div>
+    </div>
+
+    <div class="Clubs-Categories">
+        <div class="Sub-Clubs-Categories">
+            @Html.ActionLink("All", "Index", "Club", null, new { @class = "category-btn" })
+            @Html.ActionLink("Academic", "SearchByCategory", "Club", new { id = 1 }, new { @class = "category-btn" })
+            @Html.ActionLink("Sports", "SearchByCategory", "Club", new { id = 2 }, new { @class = "category-btn" })
+            @Html.ActionLink("Arts", "SearchByCategory", "Club", new { id = 4 }, new { @class = "category-btn" })
+            @Html.ActionLink("Social", "SearchByCategory", "Club", new { id = 3 }, new { @class = "category-btn" })
+            @Html.ActionLink("Technology", "SearchByCategory", "Club", new { id = 5 }, new { @class = "category-btn" })
+        </div>
+    </div>
+    @if (Model.Count != 0)
+    {
+        <div class="Bottom">
+            @foreach (var item in Model)
+            {
+                <div class="Club-Item">
+                    <div class="Top-Club-Item">
+                        <img src="~/Images/@item.LogoPath" width="60px" height="60px" style="border-radius: 10px;" />
+                        <p style="margin: 5px; padding: 3px 10px; background-color: #EEF2FF; color: #5850E7; height: fit-content; border-radius: 20px; font-size: 12px; letter-spacing: 1px; font-weight: bold;">@item.Category1.Name</p>
+                    </div>
+                    <div class="Middle-Club-Item">
+                        <h3 style="margin-bottom: 10px;">@item.Name</h3>
+                        <p style="opacity: 0.5; margin-bottom: 40px;">@item.briefDesc</p>
+                        <hr style="opacity: 0.5" />
+                    </div>
+                    <div class="Bottom-Club-Item">
+                        @Html.ActionLink("Details", "Details", "Club", new { id = item.Id }, new { @class = "Details-btn" })
+                        <a class="Join-btn" style="cursor: pointer">Join Club</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h3 style="padding: 20px; margin-top: 20px;">No available clubs from this category</h3>
+    }
+</body>
+</html>
