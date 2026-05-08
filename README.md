@@ -7,6 +7,7 @@ Students can discover clubs, learn about their vision, mission, and goals, and j
 ## Built With
 - Visual Studio
 - ASP.NET MVC 5
+- HTML, CSS, JS, C#
 - Entity Framework
 - SQL Server LocalDB (.mdf file is included inside App_Data folder)
 
